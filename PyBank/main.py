@@ -8,7 +8,8 @@ budget_data_csv = os.path.join('Resources','budget_data.csv')
 
 total_months = 0
 net_PL = 0
-avg_change_mom = 0
+avg_change_mom = 0.0
+tot_change_mom = 0.0
 greatest_increase = 0
 greatest_increase_date = ""
 greatest_decrease = 0
@@ -22,20 +23,34 @@ with open(budget_data_csv, 'r') as csvfile:
     # read the header row first
     csv_header = next(budget_file_reader)
 
-    #print(f"Header: {csv_header}")
+    # the following line was a test to check that the program was working okay:
+    # print(f"Header: {csv_header}")
 
+    # method to get the previous file row:
+    pre_row = next(budget_file_reader)
+    #print(f"preline: {pre_row}")
+    
     for row in budget_file_reader:
         # calculate the number of months in the analysis period
         total_months += 1
-        #calculate the total Profit/Loss over the entire period
+        # calculate the total Profit/Loss over the entire period
         net_PL += int(row[1])
 
+        # calculate the total change from month-over-month:
+        tot_change_mom += int(row[1]) - int(pre_row[1])
+
         # calculate the greatest increase/decrease from month over month
-        if int(row[1]) > greatest_increase:
-            greatest_increase = int(row[1])
+        if (int(row[1]) - int(pre_row[1])) > greatest_increase:
+            greatest_increase = int(row[1]) - int(pre_row[1])
             greatest_increase_date = row[0]
+        
+        elif (int(row[1]) - int(pre_row[1])) < greatest_decrease:
+            greatest_decrease = int(row[1]) - int(pre_row[1])
+            greatest_decrease_date = row[0]
+        pre_row = row
 
-
+avg_change_mom = tot_change_mom / total_months
+avg_change_mom = round(avg_change_mom, 2)
     
 
 print("Total Months: " + str(total_months))
