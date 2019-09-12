@@ -5,12 +5,15 @@ import csv
 
 # Path to collect data from the Resources folder
 election_data_csv = os.path.join('Resources','election_data.csv')
+# create the file to write to
+election_data_txt_output = os.path.join('budget_data_txt.txt')
 
 total_votes = 0
 most_votes = 0
 election_winner = ""
 candidate_list = []
 count_candidate_votes = {}
+results = []
 
 #Read in the csvfile
 with open(election_data_csv, 'r') as csvfile:
@@ -45,37 +48,53 @@ with open(election_data_csv, 'r') as csvfile:
     print(f"Total Votes: {total_votes}")
     print(f"-------------------------")
 
+
     for candidate, value in count_candidate_votes.items():
         if value > most_votes:
             most_votes = value
             election_winner = candidate
         
         print(f"{candidate}: {format(value/total_votes*100, '.3f')}% ({value})")
+        results.append(candidate)
+        results.append(": ")
+        results.append(value)
+        results.append("% ")
+        results.append("(")
+        results.append(value/total_votes*100)
+        results.append(")")
+
     print(f"-------------------------")
+    # print(results)
     print(f"Winner: {election_winner}")
     print(f"-------------------------")
 
 
 
 
+n = 0
 
 
-
-
-
-# create the file to write to
-election_data_txt_output = os.path.join('budget_data_txt.txt')
+# str1 = ''.join(results)
 
 # Open the file using "write" mode. Specify the variable to hold the contents
 with open(election_data_txt_output, 'w', newline='') as txtfile:
 
+    
 
     # simply print everything you want into the text file
     txtfile.write("Election Results: " + "\n")
     txtfile.write("-----------------------------" + "\n")
     txtfile.write("Total Votes: " + str(total_votes) + "\n")
     txtfile.write("-----------------------------" + "\n")
-    txtfile.write("WHERE THE INDIVIDUAL CANDIDATES' STUFF WILL GO" + "\n")
+    # txtfile.write(str(results))
+    for result in results:
+        txtfile.write(str(result))
+        n +=1
+        if n % 7 == 0:
+            txtfile.write("\n")
+        
+
+    # txtfile.write("\n")
     txtfile.write("-----------------------------" + "\n")
     txtfile.write("Winner: " + election_winner + "\n")
     txtfile.write("-----------------------------" + "\n")
