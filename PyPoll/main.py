@@ -1,5 +1,3 @@
-print(f'Hello World')
-
 # import the os module which allows us to create file paths across operating systems
 import os
 # this is the module for reading csv files
@@ -9,6 +7,7 @@ import csv
 election_data_csv = os.path.join('Resources','election_data.csv')
 
 total_votes = 0
+most_votes = 0
 election_winner = ""
 candidate_list = []
 count_candidate_votes = {}
@@ -22,7 +21,7 @@ with open(election_data_csv, 'r') as csvfile:
     csv_header = next(election_file_reader)
 
     # the following line was a test to check that the program was working okay:
-    print(f"Header: {csv_header}")
+    # print(f"Header: {csv_header}")
     # print(f"Total Votes: {total_votes}")
 
     for row in election_file_reader:
@@ -39,16 +38,22 @@ with open(election_data_csv, 'r') as csvfile:
         
     # for candidate in candidate_list:
     #     print(count_candidate_votes)
-    print(count_candidate_votes)
-    print(count_candidate_votes['Khan'])
+    # print(count_candidate_votes)
+    # print(count_candidate_votes['Khan'])
+    print(f"Election Results:")
+    print(f"-------------------------")
+    print(f"Total Votes: {total_votes}")
+    print(f"-------------------------")
+
     for candidate, value in count_candidate_votes.items():
-        print(value)
-
-
-
-print(f"Total Votes: {total_votes}")
-print(f"Candidate List: {candidate_list}")
-print(f"Candidate Votes Total: {count_candidate_votes}")
+        if value > most_votes:
+            most_votes = value
+            election_winner = candidate
+        
+        print(f"{candidate}: {format(value/total_votes*100, '.3f')}% ({value})")
+    print(f"-------------------------")
+    print(f"Winner: {election_winner}")
+    print(f"-------------------------")
 
 
 
