@@ -10,6 +10,8 @@ election_data_csv = os.path.join('Resources','election_data.csv')
 
 total_votes = 0
 election_winner = ""
+candidate_list = []
+count_candidate_votes = {}
 
 #Read in the csvfile
 with open(election_data_csv, 'r') as csvfile:
@@ -21,45 +23,45 @@ with open(election_data_csv, 'r') as csvfile:
 
     # the following line was a test to check that the program was working okay:
     print(f"Header: {csv_header}")
-    print(f"Total Votes: {total_votes}")
+    # print(f"Total Votes: {total_votes}")
 
-#     # method to get the previous file row:
-#     pre_row = next(election_file_reader)
-    
-#     #print(f"preline: {pre_row}")
-    
-#     # # method below as alternative to calculate the mom change
-#     # PL_change = 0
-#     # previous_PL = 0
-    
-    
     for row in election_file_reader:
         # calculate the number of votes in the analysis period
         total_votes += 1
-print(f"Total Votes: {total_votes}")
-#         # calculate the total Profit/Loss over the entire period
-#         net_PL += int(row[1])
-
-#         # calculate the total change from month-over-month:
-#         tot_change_mom += int(row[1]) - int(pre_row[1])
-
-#         # calculate the greatest increase/decrease from month over month
-#         if (int(row[1]) - int(pre_row[1])) > greatest_increase:
-#             greatest_increase = int(row[1]) - int(pre_row[1])
-#             greatest_increase_date = row[0]
         
-#         elif (int(row[1]) - int(pre_row[1])) < greatest_decrease:
-#             greatest_decrease = int(row[1]) - int(pre_row[1])
-#             greatest_decrease_date = row[0]
-#         pre_row = row
+        # add candidate to candidate_list if they are not already in the candidate_list
+        if not row[2] in candidate_list:
+            candidate_list.append(row[2])
+            count_candidate_votes[row[2]] = 0
+        # calculate total no. of votes each candidate won:
+        count_candidate_votes[row[2]] +=1    
+        
+        
+    # for candidate in candidate_list:
+    #     print(count_candidate_votes)
+    print(count_candidate_votes)
+    print(count_candidate_votes['Khan'])
+    for candidate, value in count_candidate_votes.items():
+        print(value)
 
-#         # or, using previous_PL method...
-#         # PL_change = row[1] - previous_PL
-#         # previousl_PL = row[1]
 
-# avg_change_mom = tot_change_mom / total_votes
-# avg_change_mom = round(avg_change_mom, 2)
-    
+
+print(f"Total Votes: {total_votes}")
+print(f"Candidate List: {candidate_list}")
+print(f"Candidate Votes Total: {count_candidate_votes}")
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # print("Total votes: " + str(total_votes))
 # print("Total: " + "$" + str(net_PL))
