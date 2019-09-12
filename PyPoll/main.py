@@ -14,6 +14,7 @@ election_winner = ""
 candidate_list = []
 count_candidate_votes = {}
 results = []
+str_appended = []
 
 #Read in the csvfile
 with open(election_data_csv, 'r') as csvfile:
@@ -57,10 +58,11 @@ with open(election_data_csv, 'r') as csvfile:
         print(f"{candidate}: {format(value/total_votes*100, '.3f')}% ({value})")
         results.append(candidate)
         results.append(": ")
-        results.append(value)
-        results.append("% ")
-        results.append("(")
+        # try as I might, I could not figure out how to format the below line so that the percentages would be formatted to 3dp within the text file...
         results.append(value/total_votes*100)
+        results.append("% ")
+        results.append(" (")
+        results.append(value)
         results.append(")")
 
     print(f"-------------------------")
@@ -69,12 +71,7 @@ with open(election_data_csv, 'r') as csvfile:
     print(f"-------------------------")
 
 
-
-
 n = 0
-
-
-# str1 = ''.join(results)
 
 # Open the file using "write" mode. Specify the variable to hold the contents
 with open(election_data_txt_output, 'w', newline='') as txtfile:
@@ -86,15 +83,13 @@ with open(election_data_txt_output, 'w', newline='') as txtfile:
     txtfile.write("-----------------------------" + "\n")
     txtfile.write("Total Votes: " + str(total_votes) + "\n")
     txtfile.write("-----------------------------" + "\n")
-    # txtfile.write(str(results))
+    
     for result in results:
         txtfile.write(str(result))
         n +=1
         if n % 7 == 0:
             txtfile.write("\n")
         
-
-    # txtfile.write("\n")
     txtfile.write("-----------------------------" + "\n")
     txtfile.write("Winner: " + election_winner + "\n")
     txtfile.write("-----------------------------" + "\n")
